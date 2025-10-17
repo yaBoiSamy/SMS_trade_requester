@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from Data_structures.StateMachine import StateMachine
 
 
@@ -30,6 +31,7 @@ class Command(ABC):
     def terminate(self): # Hands control of messaging back to main
         self.state_machine.reset()
         self.isActive = False
+        print("Command terminated")
 
     def poll(self):
         while self.isActive:

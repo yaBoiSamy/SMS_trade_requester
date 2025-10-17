@@ -1,8 +1,8 @@
 from enum import Enum
 from Data_structures.StateMachine import StateMachine
-from Commands.Command import Command
+from Commands.BaseCommand import Command
 from Data_structures.SingletonPattern import Singleton
-import BotResponses as br
+import HelpResponses as br
 
 
 class HelpCommand(Command, metaclass=Singleton):

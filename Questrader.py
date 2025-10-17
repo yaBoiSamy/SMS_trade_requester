@@ -1,6 +1,11 @@
-from Commands.HelpCommand import HelpCommand
+from Commands.HELP.HelpCommand import HelpCommand
 from Data_structures.SingletonPattern import Singleton
-import BotResponses as br
+
+INTRO = """\
+Hi! This is Questrader version 1.0. 
+I'll be taking care of your stocks from now on.
+Type /help for a quick introduction to the accepted commands.\
+"""
 
 
 class Questrader(metaclass=Singleton):
@@ -8,7 +13,7 @@ class Questrader(metaclass=Singleton):
         self.command_map = {
             "/help": HelpCommand(),
         }
-        print(br.INTRO)
+        print(INTRO)
         self.chat()
 
     def get_active_command(self):
