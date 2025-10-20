@@ -10,14 +10,11 @@ class HelpCommand(Command, metaclass=Singleton):
         INIT = 0
 
     def __init__(self):
-        transitions = {}
+        transitions = None
         response_map = {
-            HelpCommand.HelpStates.INIT : br.HELP_INTRO
+            HelpCommand.HelpStates.INIT: br.HELP_INTRO
         }
         init_state = HelpCommand.HelpStates.INIT
         final_states = {HelpCommand.HelpStates.INIT}
         fsm = StateMachine(transitions, response_map, init_state, final_states)
         super().__init__(fsm)
-
-    def parse_user_input_to_state_machine_input(self, user_input: str):
-        pass # This command immediately terminates after first message
