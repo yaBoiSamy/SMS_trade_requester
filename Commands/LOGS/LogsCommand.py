@@ -4,7 +4,6 @@ from Commands.BaseCommand import Command
 from Data_structures.SingletonPattern import Singleton
 from Data_structures.StateMachine import StateMachine
 from Data_structures.Logger import Logger
-from Commands.LOGS import LogsResponses as br
 
 
 class LogsCommand(Command, metaclass=Singleton):
@@ -12,7 +11,7 @@ class LogsCommand(Command, metaclass=Singleton):
         INIT = 0
 
     def __init__(self):
-        transitions = self.parse_user_input
+        transitions = None
         response_map = self.perform_response
         init_state = LogsCommand.LogsStates.INIT
         final_states = {

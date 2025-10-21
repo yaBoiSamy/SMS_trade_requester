@@ -3,6 +3,7 @@ from Commands.BUY.BuyCommand import BuyCommand
 from Commands.SELL.SellCommand import SellCommand
 from Commands.LOGIN.LoginCommand import LoginCommand
 from Commands.LOGOUT.LogoutCommand import LogoutCommand
+from Commands.LOGS.LogsCommand import LogsCommand
 from Commands.PENDING.PendingCommand import PendingCommand
 from Commands.STATUS.StatusCommand import StatusCommand
 from Commands.TAB.TabCommand import TabCommand
@@ -24,6 +25,7 @@ class Questrader(metaclass=Singleton):
             "/login": LoginCommand(),
             "/logout": LogoutCommand(),
             "/sell": SellCommand(),
+            "/logs": LogsCommand(),
         }
         print(INTRO)
         self.chat()

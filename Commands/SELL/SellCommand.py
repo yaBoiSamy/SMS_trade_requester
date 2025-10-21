@@ -4,7 +4,7 @@ from Commands.BaseCommand import Command
 from Data_structures.SingletonPattern import Singleton
 from Data_structures.StateMachine import StateMachine
 from Data_structures.Logger import Logger
-from Data_structures.Transaction import Transaction
+from Questrade_Interface.Transaction import Transaction
 from Commands.SELL import SellResponses as br
 
 
