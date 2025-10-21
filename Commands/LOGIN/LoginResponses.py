@@ -1,41 +1,17 @@
 INTRO = """\
-Enter the stock code
-ex: NVDA for nvidia\
+Enter password
 """
 
-INVALID_STOCK = """\
-This stock does not exist\
+INVALID_PASSWORD = lambda attempts: f"""\
+Incorrect password
+{attempts} attempts remaining
 """
 
-VALID_STOCK_WHOLE = """\
-Enter share quantity (whole)\
-"""
+LOCKED_OUT = """\
+Too many failed attempts.
+Your account is locked out.
+Go see Sam to unlock it"""
 
-VALID_STOCK_FRACTIONAL = """\
-Enter share quantity (fractional)\
-"""
-
-INVALID_QTT = """\
-This share quantity is invalid\
-"""
-
-VALID_QTT = f"""\
-Transaction receipt:
-Price: {price}\
-Sam's commission: 0.50$
-Total cost: {price + 0.5}
-Confirm transaction? (y/n)
-"""
-
-OVER_BUDGET = """\
-This purchase is over-budget\
-"""
-
-REJECTED = """\
-Purchase rejected\
-"""
-
-CONFIRMED = """\
-Purchase confirmed
-This transaction is now pending\
+VALID_PASSWORD = """\
+Login successful\
 """

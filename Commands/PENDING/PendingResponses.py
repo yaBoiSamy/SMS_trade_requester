@@ -19,14 +19,6 @@ INVALID_QTT = """\
 This share quantity is invalid\
 """
 
-VALID_QTT = f"""\
-Transaction receipt:
-Price: {price}\
-Sam's commission: 0.50$
-Total cost: {price + 0.5}
-Confirm transaction? (y/n)
-"""
-
 OVER_BUDGET = """\
 This purchase is over-budget\
 """

@@ -1,4 +1,4 @@
-HELP_INTRO = """\
+INTRO = """\
 /help - command guide
 /login - log in to account
 /logout - logout from account

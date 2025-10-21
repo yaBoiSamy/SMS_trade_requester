@@ -1,6 +1,6 @@
 INTRO = """\
 Enter the stock code
-ex: NVDA for nvidia\
+ex: NVDA for nvidia
 """
 
 INVALID_STOCK = """\
@@ -8,22 +8,20 @@ This stock does not exist\
 """
 
 VALID_STOCK_WHOLE = """\
-Enter share quantity (whole)\
+Enter share quantity (whole)
 """
 
 VALID_STOCK_FRACTIONAL = """\
-Enter share quantity (fractional)\
+Enter share quantity (fractional)
 """
 
 INVALID_QTT = """\
 This share quantity is invalid\
 """
 
-VALID_QTT = f"""\
+VALID_QTT = lambda price: f"""\
 Transaction receipt:
-Price: {price}\
-Sam's commission: 0.50$
-Total cost: {price + 0.5}
+Total price: {price}$
 Confirm transaction? (y/n)
 """
 

@@ -1,0 +1,4 @@
+Time,Type,Stock code,Unit price,Quantity,Total
+2025-10-20 21:19:37,Buy,,50,23,-1150
+2025-10-20 21:21:06,Buy,Cost,50,10,-500
+2025-10-20 21:27:36,Sell,Cost,50,10,500

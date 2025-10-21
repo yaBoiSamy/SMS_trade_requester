@@ -3,55 +3,52 @@ from enum import Enum
 from Commands.BaseCommand import Command
 from Data_structures.SingletonPattern import Singleton
 from Data_structures.StateMachine import StateMachine
-from Commands.BUY import BuyResponses as br
+from Commands.LOGIN import LoginResponses as br
+from Private_Constants import PASSWORD
+import Global_Variables
 
 
-class BuyCommand(metaclass=Singleton, Command):
-    class BuyStates(Enum):
+class LoginCommand(Command, metaclass=Singleton):
+    MAX_AUTHORIZED_ATTEMPTS = 5
+
+    class LoginStates(Enum):
         INIT = 0
-        INVALID_STOCK = 3
-        VALID_STOCK_WHOLE = 1
-        VALID_STOCK_FRACTIONAL = 2
-        INVALID_QTT = 5
-        VALID_QTT = 4
-        OVER_BUDGET = 6
-        REJECTED = 8
-        CONFIRMED = 7
+        INVALID_PASSWORD = 1
+        LOCKED_OUT = 2
+        VALID_PASSWORD = 3
 
     def __init__(self):
         transitions = self.parse_user_input
-        response_map = {
-            BuyCommand.BuyStates.INIT: br.INTRO,
-            BuyCommand.BuyStates.INVALID_STOCK: br.INVALID_STOCK,
-            BuyCommand.BuyStates.VALID_STOCK_WHOLE: br.VALID_STOCK_WHOLE,
-            BuyCommand.BuyStates.VALID_STOCK_FRACTIONAL: br.VALID_STOCK_FRACTIONAL,
-            BuyCommand.BuyStates.INVALID_QTT: br.INVALID_QTT,
-            BuyCommand.BuyStates.VALID_QTT: br.VALID_QTT,
-            BuyCommand.BuyStates.OVER_BUDGET: br.OVER_BUDGET,
-            BuyCommand.BuyStates.REJECTED: br.REJECTED,
-            BuyCommand.BuyStates.CONFIRMED: br.CONFIRMED,
-        }
-        init_state = BuyCommand.BuyStates.INIT
+        response_map = self.perform_response
+        init_state = LoginCommand.LoginStates.INIT
         final_states = {
-            BuyCommand.BuyStates.INVALID_STOCK,
-            BuyCommand.BuyStates.INVALID_QTT,
-            BuyCommand.BuyStates.OVER_BUDGET,
-            BuyCommand.BuyStates.REJECTED,
-            BuyCommand.BuyStates.CONFIRMED,
+            LoginCommand.LoginStates.VALID_PASSWORD,
         }
         fsm = StateMachine(transitions, response_map, init_state, final_states)
-        super().__init__(fsm)
+        super().__init__(fsm, False)
+        self.remaining_login_attempts = LoginCommand.MAX_AUTHORIZED_ATTEMPTS
 
     def parse_user_input(self, user_input):
-        # match self.state_machine.current_state:
-        #     case BuyCommand.BuyStates.INIT:
-        #     case BuyCommand.BuyStates.VALID_STOCK_WHOLE:
-        #     case BuyCommand.BuyStates.VALID_STOCK_FRACTIONAL:
-        #     case BuyCommand.BuyStates.INVALID_STOCK:
-        #     case BuyCommand.BuyStates.VALID_QTT:
-        #     case BuyCommand.BuyStates.INVALID_QTT:
-        #     case BuyCommand.BuyStates.OVER_BUDGET:
-        #     case BuyCommand.BuyStates.REJECTED:
-        #     case BuyCommand.BuyStates.CONFIRMED:
-        pass
+        match self.state_machine.current_state:
+            case LoginCommand.LoginStates.INIT: return self.validate_password(user_input)
+            case LoginCommand.LoginStates.INVALID_PASSWORD: return self.validate_password(user_input)
+            case LoginCommand.LoginStates.LOCKED_OUT: return LoginCommand.LoginStates.LOCKED_OUT
+
+    def perform_response(self):
+        match self.state_machine.current_state:
+            case LoginCommand.LoginStates.INIT: return br.INTRO
+            case LoginCommand.LoginStates.INVALID_PASSWORD: return br.INVALID_PASSWORD(self.remaining_login_attempts)
+            case LoginCommand.LoginStates.LOCKED_OUT: return br.LOCKED_OUT
+            case LoginCommand.LoginStates.VALID_PASSWORD: return br.VALID_PASSWORD
+
+    def validate_password(self, user_password):
+        if user_password == PASSWORD:
+            self.remaining_login_attempts = LoginCommand.MAX_AUTHORIZED_ATTEMPTS
+            Global_Variables.logged_in = True
+            return LoginCommand.LoginStates.VALID_PASSWORD
+        self.remaining_login_attempts -= 1
+        if self.remaining_login_attempts <= 0:
+            return LoginCommand.LoginStates.LOCKED_OUT
+        return LoginCommand.LoginStates.INVALID_PASSWORD
+
 

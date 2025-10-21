@@ -1,9 +1,9 @@
 
 
 class StateMachine:
-    def __init__(self, state_changer, output_map, init_state, final_states):
+    def __init__(self, state_changer, output_actor, init_state, final_states):
         self.state_changer = state_changer
-        self.output_map = output_map
+        self.output_actor = output_actor
         self.init_state = init_state
         self.final_states = final_states
         self.current_state = self.init_state
@@ -15,7 +15,7 @@ class StateMachine:
         self.current_state = self.init_state
 
     def get_output(self):
-        return self.output_map[self.current_state]
+        return self.output_actor()
 
     def can_exit(self):
         return self.current_state in self.final_states
