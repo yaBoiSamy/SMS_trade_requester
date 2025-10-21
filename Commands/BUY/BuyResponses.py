@@ -7,12 +7,8 @@ INVALID_STOCK = """\
 This stock does not exist\
 """
 
-VALID_STOCK_WHOLE = """\
-Enter share quantity (whole)
-"""
-
-VALID_STOCK_FRACTIONAL = """\
-Enter share quantity (fractional)
+VALID_STOCK = """\
+Enter share quantity
 """
 
 INVALID_QTT = """\

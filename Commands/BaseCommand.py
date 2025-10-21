@@ -4,7 +4,7 @@ import Global_Variables
 from Data_structures.StateMachine import StateMachine
 
 
-class Command(ABC):
+class Command(ABC, ):
     def __init__(self, behaviour: StateMachine, login_required, on_termination=None):
         self.isActive = False
         self.LOGIN_REQUIRED = login_required

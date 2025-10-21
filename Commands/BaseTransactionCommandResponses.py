@@ -8,24 +8,28 @@ This stock does not exist\
 """
 
 VALID_SYMBOL = """\
-Enter share quantity (Whole)
-"""
-
-VALID_QTT = lambda price: f"""\
-Transaction receipt:
-Total selling price: {price}$
-Confirm transaction? (y/n)
+Enter share quantity
 """
 
 INVALID_QTT = """\
 This share quantity is invalid\
 """
 
+VALID_QTT = lambda valuation: f"""\
+Transaction receipt:
+Total price: {valuation.price}$ {valuation.currency}
+Confirm transaction? (y/n)
+"""
+
+OVER_BUDGET = """\
+This transaction is over-budget\
+"""
+
 REJECTED = """\
-Sale rejected\
+Transaction rejected\
 """
 
 CONFIRMED = """\
-Sale confirmed
+Transaction confirmed
 This transaction is now pending\
 """

@@ -2,9 +2,13 @@ import requests
 import time
 from Private_Constants import QUESTRADE_TOKEN
 from Private_Constants import QUESTRADE_ACCOUNT_ID
+from pipx.commands.common import can_symlink
+
+from Data_structures.SingletonPattern import Singleton
+from Questrade_Interface.Valuation import Valuation
 
 
-class QuestradeAPIManager:
+class QuestradeAPIManager(metaclass=Singleton):
     def __init__(self):
         self.access_token = None
         self.api_server = None
@@ -46,19 +50,17 @@ class QuestradeAPIManager:
     def get_pending_transactions(self):
         endpoint = f"v1/accounts/{QUESTRADE_ACCOUNT_ID}/transactions"
         transactions = self.get(endpoint)
-        # Filter only pending
         pending = [t for t in transactions.get("transactions", []) if t["status"] == "Pending"]
         return pending
 
-    def get_account_overview(self):
-        """
-        Returns a dict with balances (CAD/US) and current positions (shares).
-        """
-        # 1. Balances
+    def get_balances(self):
         balances = self.get(f"v1/accounts/{QUESTRADE_ACCOUNT_ID}/balances")["perCurrencyBalances"]
-        balance_dict = {b["currency"]: b["cash"] for b in balances}
+        balances = {Valuation(b["currency"], b["cash"]) for b in balances}
+        usd_balance = [b for b in balances if b.currency == "USD"][0]
+        can_balance = [b for b in balances if b.currency == "CAN"][0]
+        return {'CAN': can_balance, 'USD': usd_balance}
 
-        # 2. Positions
+    def get_positions(self):
         positions = self.get(f"v1/accounts/{QUESTRADE_ACCOUNT_ID}/positions")["positions"]
         positions_dict = {}
         for p in positions:
@@ -67,8 +69,7 @@ class QuestradeAPIManager:
                 "market_value": p["currentMarketValue"],
                 "currency": p["currency"]
             }
-
-        return {"balances": balance_dict, "positions": positions_dict}
+        return positions_dict
 
     def get_share_value(self, symbol):
         endpoint = "v1/markets/quotes"
@@ -76,4 +77,6 @@ class QuestradeAPIManager:
         quotes = data.get("quotes", [])
         if not quotes:
             raise ValueError(f"No quote found for symbol: {symbol}")
-        return quotes[0]["lastTradePrice"]
+        quote = quotes[0]
+        return Valuation(quote.get("currency", "Unknown"), quote["lastTradePrice"])
+

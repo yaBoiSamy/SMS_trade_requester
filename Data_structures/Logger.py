@@ -9,11 +9,11 @@ class Logger(metaclass=Singleton):
 
     def __init__(self):
         if not os.path.exists(Logger.FILENAME):
-            pd.DataFrame(columns=["Time", "Type", "Stock code", "Unit price", "Quantity", "Total"]).to_csv(Logger.FILENAME, index=False)
+            pd.DataFrame(columns=["Time", "Type", "Symbol", "Currency", "Unit price", "Quantity", "Total"]).to_csv(Logger.FILENAME, index=False)
         self.df = pd.read_csv(Logger.FILENAME)
 
-    def appendRow(self, time, transaction_type, stock_code, unit_price, qtt, total):
-        self.df.loc[len(self.df)] = [time, transaction_type, stock_code, unit_price, qtt, total]
+    def append_row(self, time, transaction_type, symbol, currency, unit_price, qtt, total):
+        self.df.loc[len(self.df)] = [time, transaction_type, symbol, currency, unit_price, qtt, total]
         self.df.to_csv(Logger.FILENAME, index=False)
 
     def get_logs(self):
