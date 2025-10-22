@@ -1,16 +1,16 @@
-from encodings import search_function
 from enum import Enum
 from abc import ABC, abstractmethod
 
-from Commands.BaseCommand import Command
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Data_structures.Logger import Logger
 from Questrade_Interface.Transaction import Transaction
-from Commands import BaseTransactionCommandResponses as br
+from Commands.Base import BaseTransactionCommandResponses as br
+from Data_structures.SingletonPattern import Singleton
 from Questrade_Interface.APIManager import QuestradeAPIManager
 
 
-class TransactionCommand(ABC, Command):
+class TransactionCommand(Command, metaclass=Singleton):
     class TransactionStates(Enum):
         INIT = 0
         INVALID_SYMBOL = 1
@@ -33,7 +33,7 @@ class TransactionCommand(ABC, Command):
             TransactionCommand.TransactionStates.CONFIRMED,
         }
         fsm = StateMachine(transitions, response_map, init_state, final_states)
-        super().__init__(fsm, True, self.on_termination)
+        super().__init__(fsm, False, self.on_termination)
         self.current_transaction = None
         self.transaction_type = transaction_type
 
@@ -48,7 +48,7 @@ class TransactionCommand(ABC, Command):
                 return self.parse_confirmation(user_input)
 
     def parse_symbol(self, symbol):
-        self.current_transaction.code = symbol.capitalize()
+        self.current_transaction.code = symbol.upper()
         try:
             self.current_transaction.valuation = QuestradeAPIManager().get_share_value(self.current_transaction.code)
             return TransactionCommand.TransactionStates.VALID_SYMBOL
@@ -82,8 +82,7 @@ class TransactionCommand(ABC, Command):
         return TransactionCommand.TransactionStates.CONFIRMED
 
     @abstractmethod
-    def perform_sale(self):
-        # PERFORM TRANSACTION
+    def perform_transaction(self):
         pass
 
     def perform_response(self):

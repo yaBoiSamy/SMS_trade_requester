@@ -1,11 +1,10 @@
 from enum import Enum
 from Data_structures.StateMachine import StateMachine
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 import Commands.HELP.HelpResponses as br
 
 
-class HelpCommand(Command, metaclass=Singleton):
+class HelpCommand(Command):
     class HelpStates(Enum):
         INIT = 0
 

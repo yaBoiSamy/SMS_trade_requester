@@ -1,12 +1,11 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Commands.PENDING import PendingResponses as br
 
 
-class PendingCommand(Command, metaclass=Singleton):
+class PendingCommand(Command):
     class PendingStates(Enum):
         INIT = 0
 

@@ -1,14 +1,13 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Commands.LOGIN import LoginResponses as br
 from Private_Constants import PASSWORD
 import Global_Variables
 
 
-class LoginCommand(Command, metaclass=Singleton):
+class LoginCommand(Command):
     MAX_AUTHORIZED_ATTEMPTS = 5
 
     class LoginStates(Enum):

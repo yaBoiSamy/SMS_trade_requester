@@ -1,12 +1,11 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Commands.TAB import TabResponses as br
 
 
-class TabCommand(Command, metaclass=Singleton):
+class TabCommand(Command):
     class TabStates(Enum):
         INIT = 0
 

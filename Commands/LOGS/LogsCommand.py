@@ -1,12 +1,11 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Data_structures.Logger import Logger
 
 
-class LogsCommand(Command, metaclass=Singleton):
+class LogsCommand(Command):
     class LogsStates(Enum):
         INIT = 0
 

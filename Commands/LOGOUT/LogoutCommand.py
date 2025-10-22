@@ -1,13 +1,12 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
-from Data_structures.SingletonPattern import Singleton
+from Commands.Base.BaseCommand import Command
 from Data_structures.StateMachine import StateMachine
 from Commands.LOGOUT import LogoutResponses as br
 import Global_Variables
 
 
-class LogoutCommand(Command, metaclass=Singleton):
+class LogoutCommand(Command):
     class LogoutStates(Enum):
         INIT = 0
 

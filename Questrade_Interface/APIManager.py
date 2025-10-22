@@ -2,7 +2,6 @@ import requests
 import time
 from Private_Constants import QUESTRADE_TOKEN
 from Private_Constants import QUESTRADE_ACCOUNT_ID
-from pipx.commands.common import can_symlink
 
 from Data_structures.SingletonPattern import Singleton
 from Questrade_Interface.Valuation import Valuation
@@ -10,9 +9,9 @@ from Questrade_Interface.Valuation import Valuation
 
 class QuestradeAPIManager(metaclass=Singleton):
     def __init__(self):
-        self.access_token = None
-        self.api_server = None
-        self.expires_at = 0
+        self.access_token = "kJIGv7pqawdOSLCiDloRf1oVPzkTp32X0"
+        self.api_server = "https://api01.iq.questrade.com/"
+        self.expires_at = time.time() + 1600
         self.refresh()
 
     def refresh(self):

@@ -1,12 +1,12 @@
 from enum import Enum
 
-from Commands.BaseCommand import Command
+from Commands.Base.BaseCommand import Command
 from Data_structures.SingletonPattern import Singleton
 from Data_structures.StateMachine import StateMachine
 from Commands.STATUS import StatusResponses as br
 
 
-class StatusCommand(Command, metaclass=Singleton):
+class StatusCommand(Command):
     class StatusStates(Enum):
         INIT = 0
 
